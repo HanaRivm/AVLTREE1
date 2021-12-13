@@ -1,10 +1,150 @@
 
 import static org.junit.Assert.*;
 
+import java.util.Random;
+
 import org.junit.Test;
+import java.util.*;
 
 public class tests {
 	@Test
+	public void LargeScale() {
+		AVLTree t1 = new AVLTree();
+
+		int i = 0;
+		while (i <= 99) {
+			t1.insert(i, String.valueOf(i));
+			i++;
+		}
+		AVLTree.print2D(t1.getRoot());
+
+		//AVLTree.print2D(t1.getRoot());
+		AVLTree [] splitted=t1.split(30);
+		System.out.println(isBalanced(splitted[0].getRoot()));
+		AVLTree.print2D(splitted[0].getRoot());
+//		System.out.print(splitted[0].size());
+//
+//		System.out.print(Arrays.toString(splitted[0].keysToArray()));
+//
+//		splitted=splitted[0].split(9);
+//		System.out.println(isBalanced(splitted[0].getRoot()));
+//		System.out.print(Arrays.toString(t1.keysToArray()));
+
+		
+		
+//		Random rand = new Random();
+//
+//		while (!t1.empty()) {
+//			int[] keys = t1.keysToArray();
+//
+//			int k = rand.nextInt(t1.size());
+//			AVLTree.print2D(t1.getRoot());
+//			System.out.println(k);
+//			System.out.println(Arrays.toString(keys));
+//			System.out.println(keys[k] + "  " + t1.size());
+//			AVLTree[] splitted = t1.split(keys[k]);
+//			if (!isBalanced(t1.getRoot())) {
+//				System.out.println("oops");
+//			}
+//			t1 = splitted[1];
+//
+//
+//		}
+//		AVLTree t2 = new AVLTree();
+//		t2.insert(8, "8");
+//		AVLTree [] splitted = t2.split(8);
+//		System.out.println(splitted[0].getRoot().getKey());
+//		System.out.println(splitted[1].getRoot().getKey());
+//
+//		AVLTree.print2D(splitted[1].getRoot());
+
+//		AVLTree t2 = new AVLTree();
+//		i = 0;
+//		while (i < 1005) {
+//			t2.insert(i, String.valueOf(i));
+//			i++;
+//		}
+//
+//		t1.join(new AVLTree.AVLNode(1500, "1500"), t2);
+//
+//		AVLTree t3 = new AVLTree();
+//		AVLTree t4 = new AVLTree();
+//		Random rand = new Random(23456767);
+//		int size = t1.size();
+//		i=0;
+//		while (i<300) {
+//			int value = rand.nextInt(t1.size());
+//			if(t1.delete(value)!=-1) {
+//				i++;
+//				size--;
+//			}
+//			if(!isBalanced(t1.getRoot())) {
+//				System.out.println("oops");
+//			}
+//			if(size!=t1.size()) {
+//				System.out.println("oops");
+//			}
+//		}
+//		System.out.println("finished");
+
+		// t1.join(new AVLTree.AVLNode(30, "30"), t3);
+		// System.out.println(isBalanced(t1.getRoot()));
+//
+//		for(int j =0; j<1000;j++) {
+//			System.out.println("-------------------------------");
+//			System.out.println(t2.max());
+//			t2.delete(Integer.valueOf(t2.max()));
+//			System.out.println(t2.size());
+//
+//
+//		}
+		// System.out.println(t2.max());
+//		AVLTree[] splitted = t2.split(t2.getRoot().getKey());
+//		System.out.println(splitted[0].max() + " " + splitted[1].max());
+//		System.out.println(splitted[0].delete(splitted[0].getRoot().getKey()));
+		// splitted[0].join(new AVLTree.AVLNode(998,"998"),splitted[1]);
+		// System.out.println(splitted[0].min());
+		// System.out.println(t2.size());
+
+	}
+
+	public boolean isBalanced(AVLTree.IAVLNode node) {
+		int lh; /* for height of left subtree */
+
+		int rh; /* for height of right subtree */
+
+		/* If tree is empty then return true */
+		if (node == null || node.isRealNode() == false)
+			return true;
+
+		/* Get the height of left and right sub trees */
+		lh = node.getLeft().getHeight();
+		rh = node.getRight().getHeight();
+
+		if (Math.abs(lh - rh) <= 1 && isBalanced(node.getLeft()) && isBalanced(node.getRight()))
+			return true;
+
+		/* If we reach here then tree is not height-balanced */
+		return false;
+
+	}
+
+	public boolean splitMany(AVLTree t) {
+		if (t.empty()) {
+			return true;
+		}
+		if (!isBalanced(t.getRoot())) {
+			return false;
+		}
+		int[] keys = t.keysToArray();
+		Random rand = new Random();
+		int k = rand.nextInt(t.size());
+		AVLTree[] splitted = t.split(keys[k]);
+		return splitMany(splitted[0]) && splitMany(splitted[1]);
+
+	}
+
+//	@Test
 	public void RebalancingCount() {
 
 		// only insertion
@@ -82,89 +222,88 @@ public class tests {
 		t3.delete(200);
 		t3.delete(800);
 		t3.delete(20);
-		AVLTree.print2D(t3.getRoot());
-		System.out.println("--------------------");
-		AVLTree []splitted = t3.split(35);
+		// AVLTree.print2D(t3.getRoot());
+		// System.out.println("--------------------");
+		AVLTree[] splitted = t3.split(35);
 		AVLTree m = splitted[0];
-		m.join(new AVLTree.AVLNode(35, "35"),splitted[1]);
-		AVLTree.print2D(m.getRoot());
+		m.join(new AVLTree.AVLNode(35, "35"), splitted[1]);
+		// AVLTree.print2D(m.getRoot());
 		assertEquals("40", t3.search(40));
 		assertEquals(null, t3.search(10000));
-		
 
 	}
-
-	@Test
-	public void joining() {
-		AVLTree t1 = new AVLTree();
-		t1.insert(10, "10");
-		t1.insert(20, "20");
-		t1.insert(5, "5");
-		t1.insert(15, "15");
-		t1.insert(40, "40");
-		t1.insert(13, "13");
-		AVLTree.AVLNode a = new AVLTree.AVLNode(100, "100");
-		AVLTree t2 = t1;
-		t2.insert(100, "100");
-		AVLTree t3 = new AVLTree();
-		assertEquals(4, t1.join(a, t3));
-		assertEquals(t2, t1);
-		AVLTree t4 = new AVLTree();
-		AVLTree.AVLNode b = new AVLTree.AVLNode(2, "2");
-		assertEquals(4, t4.join(b, t1));
-		AVLTree t5 = new AVLTree();
-		t5.insert(67, "67");
-		t5.insert(100, "100");
-		t5.insert(200, "200");
-		t5.insert(60, "60");
-		t5.insert(45, "45");
-		t5.insert(300, "300");
-		AVLTree t6 = new AVLTree();
-		t6.insert(10, "10");
-		t6.insert(20, "20");
-		t6.insert(5, "5");
-		t6.insert(15, "15");
-		t6.insert(40, "40");
-		t6.insert(13, "13");
-		b = new AVLTree.AVLNode(41, "41");
-//		AVLTree.print2D(t5.getRoot());
-//		AVLTree.print2D(t6.getRoot());
-
-		t5.join(b, t6);
-		assertEquals(0,t5.delete(300));
-		assertEquals(1,t5.delete(200));
-
-		//AVLTree.print2D(t5.getRoot());
-		
-
-	}
-
-	@Test
-	public void splitting() {
-		AVLTree t1 = new AVLTree();
-		t1.insert(100, "100");
-		t1.insert(50, "50");
-		t1.insert(200, "200");
-		t1.insert(30, "30");
-		t1.insert(150, "150");
-		t1.insert(300, "300");
-		t1.insert(20, "20");
-		t1.insert(400, "400");
-		t1.insert(30, "30");
-		t1.insert(500, "500");
-		t1.insert(2, "2");
-		t1.delete(100);
-		t1.insert(100, "100");
-		t1.insert(799, "799");
-
-		AVLTree[] splitted = t1.split(200);
-		AVLTree t2 = splitted[0];
-		AVLTree t3 = splitted[1];
-//	t2.print2D(t2.getRoot());
-//	System.out.println("------------------------------------------------------");
-//	t3.print2D(t3.getRoot());
-
-		// assertTrue(Arrays.equals(splitted1, splitted2));
-
-	}
+//
+//	@Test
+//	public void joining() {
+//		AVLTree t1 = new AVLTree();
+//		t1.insert(10, "10");
+//		t1.insert(20, "20");
+//		t1.insert(5, "5");
+//		t1.insert(15, "15");
+//		t1.insert(40, "40");
+//		t1.insert(13, "13");
+//		AVLTree.AVLNode a = new AVLTree.AVLNode(100, "100");
+//		AVLTree t2 = t1;
+//		t2.insert(100, "100");
+//		AVLTree t3 = new AVLTree();
+//		assertEquals(4, t1.join(a, t3));
+//		assertEquals(t2, t1);
+//		AVLTree t4 = new AVLTree();
+//		AVLTree.AVLNode b = new AVLTree.AVLNode(2, "2");
+//		assertEquals(4, t4.join(b, t1));
+//		AVLTree t5 = new AVLTree();
+//		t5.insert(67, "67");
+//		t5.insert(100, "100");
+//		t5.insert(200, "200");
+//		t5.insert(60, "60");
+//		t5.insert(45, "45");
+//		t5.insert(300, "300");
+//		AVLTree t6 = new AVLTree();
+//		t6.insert(10, "10");
+//		t6.insert(20, "20");
+//		t6.insert(5, "5");
+//		t6.insert(15, "15");
+//		t6.insert(40, "40");
+//		t6.insert(13, "13");
+//		b = new AVLTree.AVLNode(41, "41");
+////		AVLTree.print2D(t5.getRoot());
+////		AVLTree.print2D(t6.getRoot());
+//
+//		t5.join(b, t6);
+//		assertEquals(0,t5.delete(300));
+//		assertEquals(1,t5.delete(200));
+//
+//		//AVLTree.print2D(t5.getRoot());
+//		
+//
+//	}
+//
+//	@Test
+//	public void splitting() {
+//		AVLTree t1 = new AVLTree();
+//		t1.insert(100, "100");
+//		t1.insert(50, "50");
+//		t1.insert(200, "200");
+//		t1.insert(30, "30");
+//		t1.insert(150, "150");
+//		t1.insert(300, "300");
+//		t1.insert(20, "20");
+//		t1.insert(400, "400");
+//		t1.insert(30, "30");
+//		t1.insert(500, "500");
+//		t1.insert(2, "2");
+//		t1.delete(100);
+//		t1.insert(100, "100");
+//		t1.insert(799, "799");
+//
+//		AVLTree[] splitted = t1.split(200);
+//		AVLTree t2 = splitted[0];
+//		AVLTree t3 = splitted[1];
+////	t2.print2D(t2.getRoot());
+////	System.out.println("------------------------------------------------------");
+////	t3.print2D(t3.getRoot());
+//
+//		// assertTrue(Arrays.equals(splitted1, splitted2));
+//
+//	}
 }
