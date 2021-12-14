@@ -12,16 +12,45 @@ public class tests {
 		AVLTree t1 = new AVLTree();
 
 		int i = 0;
-		while (i <= 99) {
+		while (i < 10000) {
 			t1.insert(i, String.valueOf(i));
 			i++;
 		}
-		AVLTree.print2D(t1.getRoot());
 
-		//AVLTree.print2D(t1.getRoot());
-		AVLTree [] splitted=t1.split(30);
-		System.out.println(isBalanced(splitted[0].getRoot()));
-		AVLTree.print2D(splitted[0].getRoot());
+		AVLTree[] splitted = t1.split(2000);
+
+		splitted = splitted[0].split(1000);
+		System.out.println(Arrays.toString(splitted[0].keysToArray()));
+
+		splitted = splitted[0].split(551);
+		System.out.println(Arrays.toString(splitted[0].keysToArray()));
+
+		//System.out.println(isBalanced(splitted[1].getRoot()));
+		//AVLTree.print2D(splitted[1].getRoot());
+		for (int j = 0; j < 100; j++) {
+			System.out.println(splitted[0].delete(j));
+
+		}
+		splitted = splitted[0].split(500);
+		for (int j = 0; j < 10; j++) {
+			System.out.println(splitted[0].insert(j, String.valueOf(j)));
+
+		}
+		//System.out.print(splitted[0].max());
+		 //AVLTree.print2D(splitted[1].getRoot());
+		System.out.println(Arrays.toString(splitted[0].keysToArray()));
+
+//		AVLTree.print2D(splitted[0].getRoot());
+//System.out.println("===================================");
+//		AVLTree.print2D(splitted[1].getRoot());
+
+		// t1.join(new AVLTree.AVLNode(34,"34"), t2);
+		// AVLTree.print2D(t1.getRoot());
+
+		// AVLTree.print2D(t1.getRoot());
+//		AVLTree [] splitted=t1.split(30);
+//		//System.out.println(isBalanced(splitted[1].getRoot()));
+//		AVLTree.print2D(splitted[0].getRoot());
 //		System.out.print(splitted[0].size());
 //
 //		System.out.print(Arrays.toString(splitted[0].keysToArray()));
@@ -30,23 +59,21 @@ public class tests {
 //		System.out.println(isBalanced(splitted[0].getRoot()));
 //		System.out.print(Arrays.toString(t1.keysToArray()));
 
-		
-		
+//		
 //		Random rand = new Random();
 //
 //		while (!t1.empty()) {
+//
 //			int[] keys = t1.keysToArray();
 //
 //			int k = rand.nextInt(t1.size());
-//			AVLTree.print2D(t1.getRoot());
-//			System.out.println(k);
 //			System.out.println(Arrays.toString(keys));
 //			System.out.println(keys[k] + "  " + t1.size());
-//			AVLTree[] splitted = t1.split(keys[k]);
+//			AVLTree[] splitted = t1.split1(keys[k]);
+//			t1=splitted[1];
 //			if (!isBalanced(t1.getRoot())) {
 //				System.out.println("oops");
 //			}
-//			t1 = splitted[1];
 //
 //
 //		}
