@@ -12,17 +12,28 @@ public class experiment {
     }
 
 
-    private int swaps(int key) {
-        int count = 0;
-        int i = index - 1;
-        while (i - 1 >= 0 && arr[i - 1] > key) {
-            arr[i] = arr[i - 1];
-            arr[i - 1] = key;
-            i = i - 1;
-            count++;
-        }
-        return count;
-    }
+    AVLTree t2 = new AVLTree();
+
+	int j = 0;
+	while (j < 100000) {
+		t2.insert(j, String.valueOf(j));
+		i++;
+	}
+	
+	while ((!t2.empty()) && (t2.size() > 0)) {
+	    int[] keys = t2.keysToArray();
+	    Random rand = new Random();
+	    int k = rand.nextInt(t2.size());
+	    AVLTree[] splitted = t2.split(keys[k]);
+	    if (!(isBalanced(t2.getRoot()))) {
+	        System.out.println(false);
+	        System.out.println(Arrays.toString(keys));
+	        System.out.println("k = " + k);
+	        AVLTree.print2D(t2.getRoot());
+	    }
+	    t2.setTree(splitted[0]);
+	}
+	System.out.println(true);
 
 //    private int[] insert_new(int k, String v) {
 //        int path_cnt = 0;

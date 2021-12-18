@@ -12,33 +12,78 @@ public class tests {
 		AVLTree t1 = new AVLTree();
 
 		int i = 0;
-		while (i < 10000) {
+		while (i < 100000) {
 			t1.insert(i, String.valueOf(i));
 			i++;
 		}
+//		System.out.println(t1.getRoot().getKey());
+		AVLTree[] splitted = t1.split(Integer.valueOf(t1.max()));
+		System.out.println(splitted[0].min());
+//		splitted= splitted[0].split(10000);
+//		System.out.println((splitted[0].getRoot()).getKey());
+//		System.out.println(splitted[0].max());
+//		System.out.println(splitted[1].max());
 
-		AVLTree[] splitted = t1.split(2000);
+		AVLTree t2 = new AVLTree();
 
-		splitted = splitted[0].split(1000);
-		System.out.println(Arrays.toString(splitted[0].keysToArray()));
+		int j = 0;
 
-		splitted = splitted[0].split(551);
-		System.out.println(Arrays.toString(splitted[0].keysToArray()));
-
-		//System.out.println(isBalanced(splitted[1].getRoot()));
-		//AVLTree.print2D(splitted[1].getRoot());
-		for (int j = 0; j < 100; j++) {
-			System.out.println(splitted[0].delete(j));
-
+		while (j < 1000) {
+			t2.insert(j, String.valueOf(j));
+			j++;
 		}
-		splitted = splitted[0].split(500);
-		for (int j = 0; j < 10; j++) {
-			System.out.println(splitted[0].insert(j, String.valueOf(j)));
-
+		while (j>=0) {
+			t2.delete(j);
+			j--;
 		}
-		//System.out.print(splitted[0].max());
-		 //AVLTree.print2D(splitted[1].getRoot());
-		System.out.println(Arrays.toString(splitted[0].keysToArray()));
+		System.out.println(Arrays.toString(t2.keysToArray()));
+
+//		for (int m = 0; m < 100; m++) {
+//
+//			while ((!t2.empty()) && (t2.size() > 0)) {
+//				int[] keys = t2.keysToArray();
+//				Random rand = new Random();
+//				int k = rand.nextInt(t2.size());
+//				// System.out.println(keys[k]);
+//
+//				AVLTree[] splitted = t2.split(keys[k]);
+//				if (!(isBalanced(splitted[0].getRoot())) || !(isBalanced(splitted[1].getRoot()))) {
+//					System.out.println(false);
+//					System.out.println(Arrays.toString(keys));
+//					System.out.println("k = " + k);
+//					AVLTree.print2D(t2.getRoot());
+//					break;
+//				}
+//				//t2.setTree(splitted[0]);
+//			}
+//			// System.out.println(true);
+//		}
+
+//		System.out.println((splitted[1].getRoot()).getKey());
+//
+//		System.out.println(isBalanced(splitted[0].getRoot()));
+//		System.out.println(isBalanced(splitted[1].getRoot()));
+//
+//		splitted = splitted[0].split(1000);
+//		System.out.println(Arrays.toString(splitted[0].keysToArray()));
+//
+//		splitted = splitted[0].split(551);
+//		System.out.println(Arrays.toString(splitted[0].keysToArray()));
+
+		// System.out.println(isBalanced(splitted[1].getRoot()));
+		// AVLTree.print2D(splitted[1].getRoot());
+//		for (int j = 0; j < 100; j++) {
+//			System.out.println(splitted[0].delete(j));
+//
+//		}
+//		splitted = splitted[0].split(500);
+//		for (int j = 0; j < 10; j++) {
+//			System.out.println(splitted[0].insert(j, String.valueOf(j)));
+//
+//		}
+//		//System.out.print(splitted[0].max());
+//		 //AVLTree.print2D(splitted[1].getRoot());
+//		System.out.println(Arrays.toString(splitted[0].keysToArray()));
 
 //		AVLTree.print2D(splitted[0].getRoot());
 //System.out.println("===================================");

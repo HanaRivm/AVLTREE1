@@ -1,3 +1,5 @@
+// Details: Goni Cohen 308503291 gonicohen, Hana Rivman 318419132 hanarivman.
+
 
 /**
  * AVLTree
@@ -7,7 +9,6 @@
 
 public class AVLTree {
 	private IAVLNode root = new AVLNode();
-	static final int COUNT = 10; // delete this!
 	private IAVLNode min;
 	private IAVLNode max;
 
@@ -33,7 +34,7 @@ public class AVLTree {
 	}
 
 	/**
-	 * IAVLNode search_node(int x)
+	 * private IAVLNode search_node(int x)
 	 * <p>
 	 * Searches the node with key k starting from root, returns null if the node is
 	 * not found. Complexity=O(log(n)).
@@ -82,7 +83,7 @@ public class AVLTree {
 	}
 
 	/**
-	 * public IAVLNode insert_rec(IAVLNode node, int k, String i)
+	 * private IAVLNode insert_rec(IAVLNode node, int k, String i)
 	 * <p>
 	 * Recursive function that inserts a node, and returns the pointer of the node
 	 * inserted Complexity = O(log(n))
@@ -286,9 +287,10 @@ public class AVLTree {
 	 * re-balancing operations, or 0 if no re-balancing operations were necessary. A
 	 * promotion/rotation counts as one re-balance operation, double-rotation is
 	 * counted as 2. Returns -1 if an item with key k was not found in the tree.
-	 * Updates min and max pointers, calls delete_rec, and then rebalances.
-	 * Complexity is O(log(n)).
+	 * Calls O(logn) complexity functions, according to the node deleted. Complexity
+	 * is O(logn).
 	 */
+
 	public int delete(int k) {
 		IAVLNode deletedNode = search_node(k);
 		if (!deletedNode.isRealNode()) {
@@ -318,6 +320,12 @@ public class AVLTree {
 
 	}
 
+	/**
+	 * private int delete_root(IAVLNode node)
+	 * <p>
+	 * Deletes the root node according to cases (leaf, unary node, binary node).
+	 * Complexity is O(logn).
+	 */
 	private int delete_root(IAVLNode node) {
 		if (size() == 1) {
 			min = null;
@@ -342,6 +350,12 @@ public class AVLTree {
 		return delete_binary(node);
 	}
 
+	/**
+	 * private int delete_leaf(IAVLNode node)
+	 * <p>
+	 * Deletes a leaf, then rebalances. Complexity is O(logn).
+	 */
+
 	private int delete_leaf(IAVLNode node) {
 		IAVLNode parent = node.getParent();
 		if (parent.getRight() == node) {
@@ -351,6 +365,12 @@ public class AVLTree {
 		}
 		return delete_rebalance(parent);
 	}
+
+	/**
+	 * private int delete_unary(IAVLNode node)
+	 * <p>
+	 * Deletes an unary node, then rebalances. Complexity is O(logn).
+	 */
 
 	private int delete_unary(IAVLNode node) {
 		IAVLNode parent = node.getParent();
@@ -375,6 +395,11 @@ public class AVLTree {
 		return delete_rebalance(parent);
 	}
 
+	/**
+	 * private int delete_binary(IAVLNode node)
+	 * <p>
+	 * Deletes an binary node, then rebalances. Complexity is O(logn).
+	 */
 	private int delete_binary(IAVLNode node) {
 		IAVLNode parent = node.getParent();
 		IAVLNode rightChild = node.getRight();
@@ -619,8 +644,8 @@ public class AVLTree {
 
 	public AVLTree[] split(int x) {
 		IAVLNode curr = search_node(x);
-		int currSuccessor = successor(curr).getKey();
-		int currPredecessor = predecessor(curr).getKey();
+		int currSuccessor = successor(curr) != null ? successor(curr).getKey() : -1;
+		int currPredecessor = predecessor(curr) != null ? predecessor(curr).getKey() : -1;
 		AVLTree t_less = subTreeMaker(curr.getLeft());
 		AVLTree t_more = subTreeMaker(curr.getRight());
 		IAVLNode parent = curr.getParent();
@@ -636,8 +661,8 @@ public class AVLTree {
 			parent = oldParent;
 		}
 		t_more.max = max;
-		t_more.min = t_more.search_node(currSuccessor);
-		t_less.max = t_less.search_node(currPredecessor);
+		t_more.min = currSuccessor != -1 ? t_more.search_node(currSuccessor) : null;
+		t_less.max = currPredecessor != -1 ? t_less.search_node(currPredecessor) : null;
 		t_less.min = min;
 
 		AVLTree[] result = { t_less, t_more };
@@ -658,12 +683,6 @@ public class AVLTree {
 		t.max = n;
 		t.min = n;
 		return t;
-	}
-
-	private void setTree(AVLTree t) {
-		this.root = t.root;
-		this.max = t.max;
-		this.min = t.min;
 	}
 
 	/**
@@ -735,7 +754,6 @@ public class AVLTree {
 			x.getLeft().setParent(x);
 		}
 		root.setParent(null);
-//		updateSize(root);
 		updateHeight(x);
 		updateSize(x);
 		insert_rebalance(x);
@@ -917,35 +935,6 @@ public class AVLTree {
 			return size;
 		}
 
-	}
-
-	static void print2DUtil(IAVLNode root, int space) {
-		// Base case
-		if (!root.isRealNode())
-			return;
-
-		// Increase distance between levels
-		space += COUNT;
-
-		// Process right child first
-		print2DUtil(root.getRight(), space);
-
-		// Print current node after space
-		// count
-		System.out.print("\n");
-		for (int i = COUNT; i < space; i++)
-			System.out.print(" ");
-		int parent = root.getParent() != null ? root.getParent().getKey() : 0;
-		System.out.print(root.getKey() + " h " + root.getHeight() + " s " + root.getSize() + " p " + parent + "\n");
-
-		// Process left child
-		print2DUtil(root.getLeft(), space);
-	}
-
-	// Wrapper over print2DUtil()
-	public static void print2D(IAVLNode root) {
-		// Pass initial space count as 0
-		print2DUtil(root, 0);
 	}
 
 }
